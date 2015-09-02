@@ -65,6 +65,15 @@ class Board:
         self.atkBoards.append("QP5")
         self.atkBoards.append("KP5")
 
+    def isOnBoard(self, position):
+        """
+        returns true if the position is on the Board
+        """
+        if self.getPiece(position) is None:
+            return false
+        else:
+            return true
+
     def getPiece(self, orig):
         """
         returns the piece on the origin
@@ -88,7 +97,7 @@ class Board:
         """
         piece = self.getPiece(orig)
 
-        if self.getPiece(dest) is None:
+        if self.isOnBoard(dest):
             return None
 
         if not piece is None and (not piece is 0):
@@ -185,3 +194,8 @@ def addVector(a, b):
     (x0, y0, z0) = a
     (x1, y1, z1) = b
     return (x0+x1, y0+y1, z0+z1)
+
+def getRelVector(a, b):
+    (x0, y0, z0) = a
+    (x1, y1, z1) = b
+    return (x1-x0, y1-y0, z1-z0)
