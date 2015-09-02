@@ -2,16 +2,6 @@ class Board:
     """
     Represents a 3D-chess board from the Star Trek series.
     """
-    names = {
-    4:"Rook",
-    1:"Pawn",
-    5:"Queen",
-    6:"King",
-    2:"Knight",
-    3:"Bishop",
-    "QL":"Queen's Level",
-    "KL":"King's Level"
-    }
 
     def __init__(self):
         self.board = [[[None for k in range(6)] for j in range(10)] for i in range(6)]
