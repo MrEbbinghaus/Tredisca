@@ -52,22 +52,28 @@ def initStartingPosition(board):
     ))
 
 def play(board):
-    print("How to play:\nExample: (x,y,z)to(x1,y1,z1)")
+    print("How to play:\nExample: (x,y,z) to (x1,y1,z1)\nExample: KP0 to QP1")
     while True:
         board.prettyPrint()
         doMove = True
         while doMove:
-            (a, b) = input("White's Move:").split("to")
+            (a, b) = input("White's Move:").split(" to ")
             try:
-                board.move(make_tuple(a), make_tuple(b))
+                if a[0] in ("K", "Q"):
+                    board.moveAtkBoard(a, b)
+                else:
+                    board.move(make_tuple(a), make_tuple(b))
                 doMove = False
             except pieces.InvalidMoveException:
                 print("failed!")
 
         while doMove:
-            (a, b) = input("Black's Move:").split("to")
+            (a, b) = input("Black's Move:").split(" to ")
             try:
-                board.move(make_tuple(a), make_tuple(b))
+                if a[0] in ("K", "Q"):
+                    board.moveAtkBoard(a, b)
+                else:
+                    board.move(make_tuple(a), make_tuple(b))
                 doMove = False
             except pieces.InvalidMoveException:
                 print("failed!")
