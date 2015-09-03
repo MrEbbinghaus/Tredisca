@@ -1,3 +1,13 @@
+class bcolors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+
 class Board:
     """
     Represents a 3D-chess board from the Star Trek series.
@@ -15,14 +25,6 @@ class Board:
             3: (0,6,3),
             4: (0,4,5),
             5: (0,8,5)}
-        self.names = {
-        4: ("R", "Rook"),
-        1: ("P", "Pawn"),
-        5: ("Q","Queen"),
-        6: ("K","King"),
-        2: ("N","Knight"),
-        3: ("B","Bishop")
-        }
 
         self._initMainBoards()
         self._initAtkBoards()
@@ -65,14 +67,22 @@ class Board:
         self.atkBoards.append("QP5")
         self.atkBoards.append("KP5")
 
+    def addAll(self, pieces):
+        for piece in pieces:
+            self.add(piece)
+
+    def add(self, piece):
+        (x, y, z) = piece.position
+        self.board[x][y][z] = piece
+
     def isOnBoard(self, position):
         """
-        returns true if the position is on the Board
+        returns True if the position is on the Board
         """
         if self.getPiece(position) is None:
-            return false
+            return False
         else:
-            return true
+            return True
 
     def getPiece(self, orig):
         """
@@ -97,10 +107,10 @@ class Board:
         """
         piece = self.getPiece(orig)
 
-        if self.isOnBoard(dest):
+        if not self.isOnBoard(dest):
             return None
 
-        if not piece is None and (not piece is 0):
+        if not piece is None and not piece is 0:
             self.setPiece(dest, piece)
             self.setPiece(orig, 0)
 
@@ -115,7 +125,7 @@ class Board:
             return
 
         if dest not in self.atkBoards:
-                                                                # get bottom-left field on king's side
+                                                                    # get bottom-left field on king's side
             field = self.pins[int(orig[2])] if orig[0] == "Q" else addVector(self.pins[int(orig[2])], (4, 0, 0))
 
             vector = self._getRelAtkBoardVector(orig, dest)
@@ -133,6 +143,11 @@ class Board:
             self.atkBoards.remove(orig)
             self.atkBoards.append(dest)
 
+    def move(self, orig, dest):
+        piece = self.getPiece(orig)
+        if piece is not None and piece is not 0:
+            piece.move(dest, self)
+
     def _getRelAtkBoardVector(self, atkBoard0, atkBoard1):
         """returns the vector from atkBoard1 to atkBoard2"""
         (x0, y0, z0) = self.pins[int(atkBoard0[2])]
@@ -149,10 +164,10 @@ class Board:
         cell = self.getPiece(position)
         if cell is not None:
             if cell is not 0:
-                if cell > 0:
-                    return ""+ bcolors.OKBLUE + names[cell][0] + bcolors.ENDC
+                if cell.color.name is "white":
+                    return ""+ bcolors.WARNING + cell.getIcon() + bcolors.ENDC
                 else:
-                    return ""+bcolors.WARNING + names[-cell][0] + bcolors.ENDC
+                    return ""+bcolors.OKBLUE + cell.getIcon() + bcolors.ENDC
             else:
                 return "_"
         else:
@@ -163,7 +178,7 @@ class Board:
         print("{0}{1}    {2}{3}     1".format(self._getIcon((0,1,1)), self._getIcon((1,1,1)), self._getIcon((4,1,1)), self._getIcon((5,1,1))))
         print("  {0}{1}{2}{3}       1".format(self._getIcon((1,1,0)), self._getIcon((2,1,0)), self._getIcon((3,1,0)), self._getIcon((4,1,0))))
         print("  {0}{1}{2}{3}       2   level 0".format(self._getIcon((1,2,0)), self._getIcon((2,2,0)), self._getIcon((3,2,0)), self._getIcon((4,2,0))))
-        print("  {0}{1}{2}{3}       3   Black's Board".format(self._getIcon((1,3,0)), self._getIcon((2,3,0)), self._getIcon((3,3,0)), self._getIcon((4,3,0))))
+        print("  {0}{1}{2}{3}       3   Whites's Board".format(self._getIcon((1,3,0)), self._getIcon((2,3,0)), self._getIcon((3,3,0)), self._getIcon((4,3,0))))
         print("  {0}{1}{2}{3}       4".format(self._getIcon((1,4,0)), self._getIcon((2,4,0)), self._getIcon((3,4,0)), self._getIcon((4,4,0))))
         print("{0}{1}    {2}{3}     4   level 1".format(self._getIcon((0,4,1)), self._getIcon((1,4,1)), self._getIcon((4,4,1)), self._getIcon((5,4,1))))
         print("{0}{1}    {2}{3}     5".format(self._getIcon((0,5,1)), self._getIcon((1,5,1)), self._getIcon((4,5,1)), self._getIcon((5,5,1))))
@@ -185,7 +200,7 @@ class Board:
         print("{0}{1}    {2}{3}     5".format(self._getIcon((0,5,5)), self._getIcon((1,5,5)), self._getIcon((4,5,5)), self._getIcon((5,5,5))))
         print("  {0}{1}{2}{3}       5".format(self._getIcon((1,5,4)), self._getIcon((2,5,4)), self._getIcon((3,5,4)), self._getIcon((4,5,4))))
         print("  {0}{1}{2}{3}       6   level 4".format(self._getIcon((1,6,4)), self._getIcon((2,6,4)), self._getIcon((3,6,4)), self._getIcon((4,6,4))))
-        print("  {0}{1}{2}{3}       7   White's Board".format(self._getIcon((1,7,4)), self._getIcon((2,7,4)), self._getIcon((3,7,4)), self._getIcon((4,7,4))))
+        print("  {0}{1}{2}{3}       7   Blacks's Board".format(self._getIcon((1,7,4)), self._getIcon((2,7,4)), self._getIcon((3,7,4)), self._getIcon((4,7,4))))
         print("  {0}{1}{2}{3}       8".format(self._getIcon((1,8,4)), self._getIcon((2,8,4)), self._getIcon((3,8,4)), self._getIcon((4,8,4))))
         print("{0}{1}    {2}{3}     8   level 5".format(self._getIcon((0,8,5)), self._getIcon((1,8,5)), self._getIcon((4,8,5)), self._getIcon((5,8,5))))
         print("{0}{1}    {2}{3}     9".format(self._getIcon((0,9,5)), self._getIcon((1,9,5)), self._getIcon((4,9,5)), self._getIcon((5,9,5))))
