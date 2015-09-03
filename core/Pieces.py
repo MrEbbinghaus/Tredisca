@@ -1,13 +1,15 @@
 import utilities
 
+
 class Piece:
     def __init__(self, position, color):
         self.position = position
         self.color = utilities.Color(color)
+        self.unmoved = True
 
     def move(self, dest, board):
-        if self.validDir(dest):
-            if board.movePiece(self.position, dest) is None:
+        if self.valid_dir(dest):
+            if board.move_piece(self.position, dest) is None:
                 raise utilities.InvalidMoveException()
 
             if type(self) in (Rook, King):
@@ -18,8 +20,9 @@ class Piece:
         else:
             raise utilities.InvalidMoveException()
 
-    def getIcon(self):
+    def get_icon(self):
         return self.icon
+
 
 class Pawn(Piece):
     name = "Pawn"
@@ -28,36 +31,35 @@ class Pawn(Piece):
     def __init__(self, position, color):
         self.position = position
         self.color = utilities.Color(color)
-        self.unmoved = True # needed for the double step
+        self.unmoved = True  # needed for the double step
 
-    def validDir(self, dest):
+    def valid_dir(self, dest):
         """
         returns True, if the destination is a valid move
         does not check if the destination is occupied or not on the board
         does check if a double step is possible
         """
-        (x, y, _) = utilities.getRelVector(self.position, dest)
-
+        (x, y, _) = utilities.get_rel_vector(self.position, dest)
 
         if x is 0 and y is 0:
             return False
 
-        print((x,y,_))
-        if (abs(x) in (0,1) and abs(y) is 1) ^ \
-         (abs(x) is 0 and abs(y) is 2 and self.unmoved):
+        print((x, y, _))
+        if (abs(x) in (0, 1) and abs(y) is 1) ^ \
+                (abs(x) is 0 and abs(y) is 2 and self.unmoved):
             return True
         else:
             return False
 
     def move(self, dest, board):
-        if self.validDir(dest):
-            (x, y, _) = utilities.getRelVector(self.position, dest)
+        if self.valid_dir(dest):
+            (x, y, _) = utilities.get_rel_vector(self.position, dest)
             if abs(x) is 1 or abs(y) is 1:
-                destPiece = board.getPiece(dest)
-                if destPiece is None or destPiece is 0:
+                dest_piece = board.get_piece(dest)
+                if dest_piece is None or dest_piece is 0:
                     raise utilities.InvalidMoveException()
 
-            if board.movePiece(self.position, dest) is None:
+            if board.move_piece(self.position, dest) is None:
                 raise utilities.InvalidMoveException()
 
             if self.unmoved:
@@ -68,16 +70,17 @@ class Pawn(Piece):
         else:
             raise utilities.InvalidMoveException()
 
+
 class Knight(Piece):
     name = "Knight"
     icon = "N"
 
-    def validDir(self, dest):
+    def valid_dir(self, dest):
         """
         returns True, if the destination is a valid move
         does not check if the destination is occupied or not on the board
         """
-        (x, y, _) = utilities.getRelVector(self.position, dest)
+        (x, y, _) = utilities.get_rel_vector(self.position, dest)
 
         if x is 0 and y is 0:
             return False
@@ -87,17 +90,18 @@ class Knight(Piece):
         else:
             return False
 
+
 class Bishop(Piece):
     name = "Bishop"
     icon = "B"
 
-    def validDir(self, dest):
+    def valid_dir(self, dest):
         """
         returns True, if the destination is a valid move
         does not check if the destination is occupied or not on the board
         does not check if something is in the way
         """
-        (x, y, _) = utilities.getRelVector(self.position, dest)
+        (x, y, _) = utilities.get_rel_vector(self.position, dest)
 
         if x is 0 and y is 0:
             return False
@@ -107,6 +111,7 @@ class Bishop(Piece):
         else:
             return False
 
+
 class Rook(Piece):
     name = "Rook"
     icon = "R"
@@ -114,32 +119,33 @@ class Rook(Piece):
     def __init__(self, position, color):
         self.position = position
         self.color = utilities.Color(color)
-        self.unmoved = True # needed for castling
+        self.unmoved = True  # needed for castling
 
-    def validDir(self, dest):
+    def valid_dir(self, dest):
         """
         returns True, if the destination is a valid move
         does not check if the destination is occupied or not on the board
         does not check if something is in the way
         """
-        (x, y, _) = utilities.getRelVector(self.position, dest)
+        (x, y, _) = utilities.get_rel_vector(self.position, dest)
 
         if (abs(x) is 0) ^ (abs(y) is 0):
             return True
         else:
             return False
 
+
 class Queen(Piece):
     name = "Queen"
     icon = "Q"
 
-    def validDir(self, dest):
+    def valid_dir(self, dest):
         """
         returns True, if the destination is a valid move
         does not check if the destination is occupied or not on the board
         does not check if something is in the way
         """
-        (x, y, _) = utilities.getRelVector(self.position, dest)
+        (x, y, _) = utilities.get_rel_vector(self.position, dest)
 
         if x is 0 and y is 0:
             return False
@@ -149,6 +155,7 @@ class Queen(Piece):
         else:
             return False
 
+
 class King(Piece):
     name = "King"
     icon = "K"
@@ -156,15 +163,15 @@ class King(Piece):
     def __init__(self, position, color):
         self.position = position
         self.color = utilities.Color(color)
-        self.unmoved = True # needed to know if the king has already moved
+        self.unmoved = True  # needed to know if the king has already moved
 
-    def validDir(self, dest):
+    def valid_dir(self, dest):
         """
         returns True, if the destination is a valid move
         does not check if the destination is occupied or not on the board
         does not check if a rochade is possible
         """
-        (x, y, _) = utilities.getRelVector(self.position, dest)
+        (x, y, _) = utilities.get_rel_vector(self.position, dest)
 
         if (abs(x) in (0, 1)) and (abs(y) in (0, 1)):
             return True
