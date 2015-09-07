@@ -1,12 +1,12 @@
 # Tredisca
-A 3D-chess game, Star Trek Style
+A 3D-chess game, Star Trek style
 
-The Rules can be found here:
+The rules can be found here:
 http://meder.spacechess.org/3dschach/chess3d.htm
 
 ## How to use:
 **from the terminal**:
-Just call `python3 core/Tredisca.py`.
+Just call `python3 core/tredisca.py`.
 
 **on your phone** (just preview):
 Run 'Android Studio' -> open project -> `android\` -> plug your Android device in and hit 'run' (make sure you have debug-mode in the developer settings enabled).
