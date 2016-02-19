@@ -108,4 +108,26 @@ public class Vector3dTest {
         assert v.y == y : "y Component wrong!";
         assert v.z == z : "z Component wrong!";
     }
+
+    @Test
+    public void testEqualsInts() throws Exception {
+        Vector3d v = new Vector3d(1, 2, 3);
+
+        assert v.equals(1, 2, 3);
+    }
+
+    @Test
+    public void testEqualsVector() throws Exception {
+        Vector3d v1 = new Vector3d(1, 2, 3);
+        Vector3d v2 = new Vector3d(1, 2, 3);
+
+        assert v1.equals(v2);
+    }
+
+    @Test
+    public void testToString() throws Exception {
+        Vector3d v = new Vector3d(1, 2, 3);
+
+        assert v.toString().equals("(1, 2, 3)");
+    }
 }

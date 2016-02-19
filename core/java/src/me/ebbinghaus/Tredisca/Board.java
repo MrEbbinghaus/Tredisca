@@ -10,7 +10,7 @@ public class Board {
         //TODO init Board with standard layout
     }
 
-    public void moveAtkBoard(String origin, String dest) {
+    public void moveAtkBoard(Vector3d origin, Vector3d dest) {
         if (atkBoards.get(origin) != null && atkBoards.get(dest) == null) {
 
         } else {
