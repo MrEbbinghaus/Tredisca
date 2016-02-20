@@ -12,21 +12,37 @@ class bColors:
     UNDERLINE = '\033[4m'
 
 
-def add_vector(a, b):
+def add_vector(a, b) -> tuple:
     (x0, y0, z0) = a
     (x1, y1, z1) = b
     return x0 + x1, y0 + y1, z0 + z1
 
 
-def get_rel_vector(a, b):
+def sub_vector(a, b) -> tuple:
+    (x0, y0, z0) = a
+    (x1, y1, z1) = b
+    return x0 - x1, y0 - y1, z0 - z1
+
+
+def get_rel_vector(a, b) -> tuple:
     (x0, y0, z0) = a
     (x1, y1, z1) = b
     return x1 - x0, y1 - y0, z1 - z0
 
 
+def get_base_vector(a) -> tuple:
+    """
+    :param a:
+    :return:
+    """
+    (x, y, _) = a
+    return (1 if x > 0 else -1 if x < 0 else 0,
+            1 if y > 0 else -1 if y < 0 else 0, _)
+
+
 class InvalidMoveException(Exception):
     def __init__(self, message=""):
-        self.message = "Invalid Move!" + message
+        self.message = "Invalid Move! MSG: " + message
 
 
 class Color(Enum):

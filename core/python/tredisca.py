@@ -9,7 +9,6 @@ class Game:
     def __init__(self):
         self.board = Board()
         self.init_starting_position()
-        self.play()
 
     def play(self):
         print("How to play:\nExample: (x,y,z) to (x1,y1,z1)\nExample: KP0 to QP1")
@@ -24,9 +23,11 @@ class Game:
                     else:
                         self.board.move(make_tuple(a), make_tuple(b))
                     do_move = False
-                except InvalidMoveException:
-                    print("failed!")
+                except InvalidMoveException as err:
+                    print(err)
 
+            do_move = True
+            self.board.pretty_print()
             while do_move:
                 (a, b) = input("Black's Move:").split(" to ")
                 try:
@@ -35,8 +36,8 @@ class Game:
                     else:
                         self.board.move(make_tuple(a), make_tuple(b))
                     do_move = False
-                except InvalidMoveException:
-                    print("failed!")
+                except InvalidMoveException as err:
+                    print(err)
 
     def init_starting_position(self):
         self.board.add_all((
@@ -81,7 +82,7 @@ class Game:
 
 
 def main():
-    Game()
+    Game().play()
 
 
 if __name__ == "__main__":

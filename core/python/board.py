@@ -67,7 +67,7 @@ class Board:
         (x, y, z) = piece.position
         self.board[x][y][z] = piece
 
-    def is_on_board(self, position):
+    def is_on_board(self, position) -> bool:
         """
         returns True if the position is on the Board
         """
@@ -78,7 +78,7 @@ class Board:
 
     def get_piece(self, orig):
         """
-        returns the piece on the origin
+        :return: the piece on the origin
         """
         (x, y, z) = orig
         return self.board[x][y][z]
@@ -94,8 +94,8 @@ class Board:
     def move_piece(self, orig, dest):
         """
         moves a piece from its origin to the destination
-        returns None if the destination is None
-        returns the piece if the piece is None or 0
+        :return: None if the destination is None
+        :return: the piece if the piece is None or 0
         """
         piece = self.get_piece(orig)
 
@@ -143,7 +143,7 @@ class Board:
         if piece is not None and piece is not 0:
             piece.move(dest, self)
 
-    def _get_rel_atk_board_vector(self, atk_board_0, atk_board_1):
+    def _get_rel_atk_board_vector(self, atk_board_0, atk_board_1) -> tuple:
         """returns the vector from atkBoard1 to atkBoard2"""
         (x0, y0, z0) = self.pins[int(atk_board_0[2])]
         (x1, y1, z1) = self.pins[int(atk_board_1[2])]
@@ -153,7 +153,7 @@ class Board:
         elif atk_board_0[0] == "Q" and atk_board_1[0] == "K":
             x1 += 4
 
-        return (x1 - x0, y1 - y0, z1 - z0)
+        return x1 - x0, y1 - y0, z1 - z0
 
     def _get_icon(self, position):
         cell = self.get_piece(position)
@@ -188,16 +188,11 @@ class Board:
         print("========")
         print("01123445")
         print("========")
-        print("{0}{1}    {2}{3}     2   level 3".format(self._get_icon((0, 2, 3)), self._get_icon((1, 2, 3)),
-                                                        self._get_icon((4, 2, 3)), self._get_icon((5, 2, 3))))
-        print("{0}{1}    {2}{3}     3".format(self._get_icon((0, 3, 3)), self._get_icon((1, 3, 3)),
-                                              self._get_icon((4, 3, 3)), self._get_icon((5, 3, 3))))
-        print("  {0}{1}{2}{3}       3".format(self._get_icon((1, 3, 2)), self._get_icon((2, 3, 2)),
-                                              self._get_icon((3, 3, 2)), self._get_icon((4, 3, 2))))
-        print("  {0}{1}{2}{3}       4   level 2".format(self._get_icon((1, 4, 2)), self._get_icon((2, 4, 2)),
-                                                        self._get_icon((3, 4, 2)), self._get_icon((4, 4, 2))))
-        print("  {0}{1}{2}{3}       5   Neutral Board".format(self._get_icon((1, 5, 2)), self._get_icon((2, 5, 2)),
-                                                              self._get_icon((3, 5, 2)), self._get_icon((4, 5, 2))))
+        print("{0}{1}    {2}{3}     2   level 3".format(self._get_icon((0, 2, 3)), self._get_icon((1, 2, 3)), self._get_icon((4, 2, 3)), self._get_icon((5, 2, 3))))
+        print("{0}{1}    {2}{3}     3".format(self._get_icon((0, 3, 3)), self._get_icon((1, 3, 3)), self._get_icon((4, 3, 3)), self._get_icon((5, 3, 3))))
+        print("  {0}{1}{2}{3}       3".format(self._get_icon((1, 3, 2)), self._get_icon((2, 3, 2)), self._get_icon((3, 3, 2)), self._get_icon((4, 3, 2))))
+        print("  {0}{1}{2}{3}       4   level 2".format(self._get_icon((1, 4, 2)), self._get_icon((2, 4, 2)), self._get_icon((3, 4, 2)), self._get_icon((4, 4, 2))))
+        print("  {0}{1}{2}{3}       5   Neutral Board".format(self._get_icon((1, 5, 2)), self._get_icon((2, 5, 2)), self._get_icon((3, 5, 2)), self._get_icon((4, 5, 2))))
         print("  {0}{1}{2}{3}       6".format(self._get_icon((1, 6, 2)), self._get_icon((2, 6, 2)),
                                               self._get_icon((3, 6, 2)), self._get_icon((4, 6, 2))))
         print("{0}{1}    {2}{3}     6   level 3".format(self._get_icon((0, 6, 3)), self._get_icon((1, 6, 3)),
@@ -207,8 +202,7 @@ class Board:
         print("========")
         print("01123445")
         print("========")
-        print("{0}{1}    {2}{3}     4   level 5".format(self._get_icon((0, 4, 5)), self._get_icon((1, 4, 5)),
-                                                        self._get_icon((4, 4, 5)), self._get_icon((5, 4, 5))))
+        print("{0}{1}    {2}{3}     4   level 5".format(self._get_icon((0, 4, 5)), self._get_icon((1, 4, 5)), self._get_icon((4, 4, 5)), self._get_icon((5, 4, 5))))
         print("{0}{1}    {2}{3}     5".format(self._get_icon((0, 5, 5)), self._get_icon((1, 5, 5)),
                                               self._get_icon((4, 5, 5)), self._get_icon((5, 5, 5))))
         print("  {0}{1}{2}{3}       5".format(self._get_icon((1, 5, 4)), self._get_icon((2, 5, 4)),
